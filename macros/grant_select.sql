@@ -8,6 +8,6 @@
 
     {{ log("Granting select on all tables and views in schema " ~ schema ~ " to role " ~ role, info=True) }}
     {% do run_query(sql) %}
-    {{ log("Privileges on schema" ~ schema ~ "granted", info=True) }}
+    {{ log("Privileges on schema " ~ schema ~ " granted", info=True) }}
 
 {% endmacro %}
