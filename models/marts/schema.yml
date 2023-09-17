@@ -60,6 +60,10 @@ models:
         description: Total amount (AUD) of the order
         tests:
           - not_null
+          - assert_dollars_spent_are_greater_than_one:
+              group_by_column: order_id
+          - average_dollars_spent_greater_than_one:
+              group_by_column: customer_id
 
       - name: credit_card_amount
         description: Amount of the order (AUD) paid for by credit card
