@@ -10,6 +10,9 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.cardinality_equality:
+              field: customer_id
+              to: ref('stg_customers')
 
       - name: first_name
         description: Customer's first name. PII.
@@ -31,6 +34,9 @@ models:
 
   - name: orders
     description: This table has basic information about orders, as well as some derived facts based on payments
+    tests:
+      - dbt_utils.expression_is_true:
+              expression: "amount > 0"
 
     columns:
       - name: order_id
@@ -64,6 +70,11 @@ models:
               group_by_column: order_id
           - average_dollars_spent_greater_than_one:
               group_by_column: customer_id
+          - dbt_expectations.expect_column_mean_to_be_between:
+              min_value: 1
+              group_by: [customer_id]
+              strictly: True
+
 
       - name: credit_card_amount
         description: Amount of the order (AUD) paid for by credit card
