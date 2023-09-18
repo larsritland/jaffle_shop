@@ -1,3 +1,5 @@
+{{ config(enabled = false) }}
+
 {#
 -- use this set if you are comparing to a legacy model, rather than another dbt model
 -- {% set old_etl_relation=adapter.get_relation(

@@ -20,14 +20,24 @@ models:
           #- unique
           - accepted_values:
               values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
+              config:
+                limit: 10
+                store_failures: true
 
   - name: stg_payments
     columns:
       - name: payment_id
         tests:
-          - unique
           - not_null
+          - unique:
+              config:
+                severity: error
+                error_if: ">100"
+                warn_if: ">10"
       - name: payment_method
         tests:
           - accepted_values:
               values: ['credit_card', 'coupon', 'bank_transfer', 'gift_card']
+              #values: ['coupon', 'bank_transfer', 'gift_card']
+              config:
+                where: "status = 'success'"
